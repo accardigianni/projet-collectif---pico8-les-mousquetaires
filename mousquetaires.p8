@@ -1,344 +1,332 @@
 pico-8 cartridge // http://www.pico-8.com
 version 38
 __lua__
- --init
+
+--init
 
 function _init()
-	c=0
+	c = 0
 	create_player()
-	bullets={}
-	enemies={}
-	explosions={}
-	totallife=p.life
-	
+	bullets = {}
+	enemies = {}
+	explosions = {}
+	totallife = p.life
 
-	spawn_zombie(9,6)
-	spawn_zombie(59,27)
-	spawn_zombie(61,24)
-	spawn_zombie(60,21)
-	spawn_zombie(68,04)
-	spawn_zombie(96,21)
-	spawn_zombie(113,25)
-	spawn_zombie(118,27)
-	spawn_zombie(118,20)
-	spawn_zombie(77,09)
-	spawn_robot(22,03)
-	spawn_robot(26,4)
-	spawn_robot(09,23)
-	spawn_robot(11 ,18)
-	spawn_robot(29,20)
-	spawn_robot(7,21)
-	spawn_robot(54,17)
-	spawn_robot(59,17)
-	spawn_robot(78,02)
-	spawn_robot(86,22)
-	spawn_robot(76,25)
-	spawn_robot(106,03)
-	spawn_robot(114,04)
-	spawn_robot(106,10)
-	spawn_robot(106,17)
-	spawn_robot(110,17)
-	spawn_robot(104,27)
-	spawn_robot(108,23)
-	spawn_robot(122,22)
-	spawn_robot(124,17)
---	place_enespaun_robomies(x,y)
+	spawn_zombie(9, 6)
+	spawn_zombie(59, 27)
+	spawn_zombie(61, 24)
+	spawn_zombie(60, 21)
+	spawn_zombie(68, 04)
+	spawn_zombie(96, 21)
+	spawn_zombie(113, 25)
+	spawn_zombie(118, 27)
+	spawn_zombie(118, 20)
+	spawn_zombie(77, 09)
+	spawn_robot(22, 03)
+	spawn_robot(26, 4)
+	spawn_robot(09, 23)
+	spawn_robot(11, 18)
+	spawn_robot(29, 20)
+	spawn_robot(7, 21)
+	spawn_robot(54, 17)
+	spawn_robot(59, 17)
+	spawn_robot(78, 02)
+	spawn_robot(86, 22)
+	spawn_robot(76, 25)
+	spawn_robot(106, 03)
+	spawn_robot(114, 04)
+	spawn_robot(106, 10)
+	spawn_robot(106, 17)
+	spawn_robot(110, 17)
+	spawn_robot(104, 27)
+	spawn_robot(108, 23)
+	spawn_robot(122, 22)
+	spawn_robot(124, 17)
+	--	place_enespawn_robomies(x,y)
 	init_msg()
 	--main menu v
-	scene="menu"
-	x=63
-	y=63
+	scene = "menu"
+	x = 63
+	y = 63
 	music(21)
 end
 
 function _update()
---_update dans -> main menu
---update menu ⬇️
-update_m()
-
-end 
+	--_update dans -> main menu
+	--update menu ⬇️
+	update_m()
+end
 
 function _draw()
---_draw dans -> main menu
---draw menu ⬇️
-		cls()
-	 draw_g()
+	--_draw dans -> main menu
+	--draw menu ⬇️
+	cls()
+	draw_g()
 end
 -->8
 --map
 
 function draw_map()
-	map (0,0,0,0,128,64)
-
+	map(0, 0, 0, 0, 128, 64)
 end
 
 --check collision
 
-function check_flag(flag,x,y)
-	local sprite=mget(x,y)
-	return fget(sprite,flag)
+function check_flag(flag, x, y)
+	local sprite = mget(x, y)
+	return fget(sprite, flag)
 end
 
 -- sprite switch pour la cle
 
-function next_tile(x,y)
-	local sprite=mget(x,y)
-	mset(x,y,sprite+1)
+function next_tile(x, y)
+	local sprite = mget(x, y)
+	mset(x, y, sprite + 1)
 end
 
 --ramasser cle
 
-function pick_up_key(x,y)
-	next_tile(x,y)
-	p.keys+=1
+function pick_up_key(x, y)
+	next_tile(x, y)
+	p.keys += 1
 	sfx(63)
 end
 
 --ouvrir porte
 
-function open_door(x,y)
-	next_tile(x,y)
-	p.keys-=1
+function open_door(x, y)
+	next_tile(x, y)
+	p.keys -= 1
 	sfx(2)
 end
 
 --ramasser de la vie
-function pick_up_life(x,y)
-	next_tile(x,y)
-	p.life+=1
+function pick_up_life(x, y)
+	next_tile(x, y)
+	p.life += 1
 	sfx(63)
 end
 
-
-
-	
 -->8
 --players
 
 function create_player()
-	p={x=1,y=1,
-	ox=0,oy=0,
-	start_ox=0,start_oy=0,
-	anim_t=0,
-	sprite=2,
-	keys=0,life=5}
+	p = {
+		x = 1, y = 1,
+		ox = 0, oy = 0,
+		start_ox = 0, start_oy = 0,
+		anim_t = 0,
+		sprite = 2,
+		keys = 0, life = 5
+	}
 end
 
 function player_mouvement()
-
-	newx=p.x
-	newx=p.x
-	newy=p.y
+	newx = p.x
+	newx = p.x
+	newy = p.y
 	if p.anim_t == 0 then
-     newox = 0
-     newoy = 0
-	if (btnp(❎)) shoot()
- if btn(⬅️) then
-     newx -= 1
-     newox = 8
-     p.flip=true
-     p.direction="gauche"
- elseif btn(➡️) then
-   	 newx += 1
-     newox = -8
-     p.flip=false
-     p.direction="droite"
- elseif btn(⬆️) then
-     newy -= 1
-     newoy = 7
-     p.direction="haut"
- elseif btn(⬇️) then
-     newy += 1
-     newoy = -7
-     p.direction="bas"
-        end
-    end
-    
-    --colilision avec player 
- c-=1
-if c<=0 then
-for e in all (enemies) do
-if (collision(e,p))then 
-sfx(2)
-p.life-=1
-c=30
+		newox = 0
+		newoy = 0
+		if (btnp(❎)) shoot() if btn(⬅️) then
+			newx -= 1
+			newox = 8
+			p.flip = true
+			p.direction = "gauche"
+		elseif btn(➡️) then
+			newx += 1
+			newox = -8
+			p.flip = false
+			p.direction = "droite"
+		elseif btn(⬆️) then
+			newy -= 1
+			newoy = 7
+			p.direction = "haut"
+		elseif btn(⬇️) then
+			newy += 1
+			newoy = -7
+			p.direction = "bas"
+		end
 	end
+
+	--colilision avec player
+	c -= 1
+	if c <= 0 then
+		for e in all(enemies) do
+			if collision(e, p) then
+				sfx(2)
+				p.life -= 1
+				c = 30
+			end
+		end
 	end
 	--life-----
 
---if (p.life<=0) then
---cls(0)
---stop("try next time...",40,60,7)
---end
-end
-	
-	interact(newx,newy)
+	if p.life <= 0 then
+		cls(0)
+		stop("try next time...", 40, 60, 7)
+	end
 
-	
+	interact(newx, newy)
+
 	--collision obstacles
 
- if (newx!=p.x or newy!=p.y) and
-  not check_flag(0,newx,newy) 
-then  p.x=mid(0,newx,127)
-      p.y=mid(0,newy,63)
-      p.start_ox=newox
-      p.start_oy=newoy
-      p.anim_t=1
- end
- 
- 
+	if (newx != p.x or newy != p.y)
+			and not check_flag(0, newx, newy) then
+		p.x = mid(0, newx, 127)
+		p.y = mid(0, newy, 63)
+		p.start_ox = newox
+		p.start_oy = newoy
+		p.anim_t = 1
+	end
 
+	--animation
+	p.anim_t = max(p.anim_t - 0.125, 0)
+	p.ox = p.start_ox * p.anim_t
+	p.oy = p.start_oy * p.anim_t
 
---animation
-	p.anim_t=max(p.anim_t-0.125,0)
-	p.ox=p.start_ox*p.anim_t
-	p.oy=p.start_oy*p.anim_t
-	
-	if p.anim_t>0.5 then
-		p.sprite=114
+	if p.anim_t > 0.5 then
+		p.sprite = 114
 	else
-		p.sprite=2
+		p.sprite = 2
 	end
 end
 
 --ramassage de cle
 
-function interact(x,y)
-	if check_flag(1,x,y) then
-		pick_up_key(x,y)
-	elseif check_flag(2,x,y) 
-	and p.keys>0 then
-		open_door(x,y)
-	elseif check_flag(3,x,y) and
-	p.life<5 then
-		pick_up_life(x,y)
+function interact(x, y)
+	if check_flag(1, x, y) then
+		pick_up_key(x, y)
+	elseif check_flag(2, x, y)
+			and p.keys > 0 then
+		open_door(x, y)
+	elseif check_flag(3, x, y)
+			and p.life < 5 then
+		pick_up_life(x, y)
 	end
-	
+
 	--ramasser de la vie
-function life(x,y)
-	if check_flag(3,x,y) then
-		pick_up_life(x,y)
+	function life(x, y)
+		if check_flag(3, x, y) then
+			pick_up_life(x, y)
+		end
 	end
-end
 
-	if x==5 and y==4  then
-		create_msg("panneau","les trois mousquetaires\nont disparu retrouve-les !!!","fais attention aux ennemis. ")
+	if x == 5 and y == 4 then
+		create_msg("panneau", "les trois mousquetaires\nont disparu retrouve-les !!!", "fais attention aux ennemis. ")
 	end
-	
-		if x==7 and y==2  then
-		create_msg("hermione"," si tu veux eliminer les\nennemis, appuies sur x","ca s'appelle jeter un sort !")
-end
 
-	if x==22 and y==11  then
-create_msg("panneau","fais attention, donjon\nplus loin")
-end
-	if x==17 and y==21  then
-create_msg("panneau","Il y a quelqu'un a sauver\nplus loin", "peut-etre que c'est\n un mousquetaire")
-end
-
-if x==3 and y==20  then
-create_msg("batman","tu t'en es bien sorti", "t'inquiete je n'ai pas besoin\nd'aide","je suis le batman")
-end
-
-if x==18 and y==27 then
-create_msg("link","yaah ! hiyaah ! yaah !")
-end
-
-if x==22 and y==28 then
-	create_msg("panneau","tu vas changer\nde monde"," village de cowboy\nplus loin ")
-end
-
-if x==42 and y==24 then
-	create_msg("lucky luke","bienvenue au desert","au passage, tu n'aurais\npas vu les daltons ?")
-end
-if x==46 and y==24 then
-	create_msg("panneau","si tu n'as pas trouve\nla cle"," cherche en haut\ndu village ")
-end
-if x==55 and y==25 then
-	create_msg("schtroumpfette","merci de m'avoir sauvee","je m'etais bien fais\nschtroumpfer")
-end
-if x==56 and y==5 then
-	create_msg("pumba","hakuna matata\nqu'est-ce qu'on est bien ici","y a pleins d'insectes ! ")
-end
-if x==37 and y==10 then
-	create_msg("joe dalton","ne dis pas a lucky luke\nque je suis la !","je te donne la cle\nen echange.")
-end
-if x==67 and y==12 then
-	create_msg("bonhomme de neige","bienvenue au monde\ndes neiges...","quoi ?\noui, je vais tres bien","je me suis mis au chaud ")
-end
-if x==83 and y==02 then
-	create_msg("anna","est-ce que tu as vu mon\nbonhomme de neige ?","je l'avais fais pas loin d'ici","Non? Bon...","Tu n'as pas vu ma soeur\nau passage ?")
-end
-if x==93 and y==12 then
-	create_msg("panneau","si tu as rate une cle\nretourne en arriere","visite le village\na gauche")
-end
-if x==66 and y==24 then
-	create_msg("panneau","bienvenue au village de neige")
-end
-
-if x==114 and y==18 then
-	create_msg("gollum","ce n'est pas mon precieux...\nc'est juste une cle...")
-end
-
-if x==70 and y==18 then
-		create_msg("lara croft","j'ai cru que c'etait un\nartefact",
-		"mais c'est juste une cle,\ntu peux la prendre")
-	end	
-	if x==101 and y==4 then
-		create_msg("peach","bienvenue au printemps !","pour une fois que ce n'est pas\nmoi qui me suis fais capturer")
+	if x == 7 and y == 2 then
+		create_msg("hermione", " si tu veux eliminer les\nennemis, appuies sur x", "ca s'appelle jeter un sort !")
 	end
-	if x==110 and y==4 then
-		create_msg("paneau","avance prudemment! ennemi\na deux pas.")
-	end	
-	if x==97  and y==12 then
-	 		create_msg ("samus","tu es en mission ?","bonne chance a toi, je\nvoudrais bien t'aider,","mais j'ai enleve mon armure",
-			"il faisait bon")
-				
+
+	if x == 22 and y == 11 then
+		create_msg("panneau", "fais attention, donjon\nplus loin")
 	end
-	if x==100 and y==24 then
+	if x == 17 and y == 21 then
+		create_msg("panneau", "Il y a quelqu'un a sauver\nplus loin", "peut-etre que c'est\n un mousquetaire")
+	end
+
+	if x == 3 and y == 20 then
+		create_msg("batman", "tu t'en es bien sorti", "t'inquiete je n'ai pas besoin\nd'aide", "je suis le batman")
+	end
+
+	if x == 18 and y == 27 then
+		create_msg("link", "yaah ! hiyaah ! yaah !")
+	end
+
+	if x == 22 and y == 28 then
+		create_msg("panneau", "tu vas changer\nde monde", " village de cowboy\nplus loin ")
+	end
+
+	if x == 42 and y == 24 then
+		create_msg("lucky luke", "bienvenue au desert", "au passage, tu n'aurais\npas vu les daltons ?")
+	end
+	if x == 46 and y == 24 then
+		create_msg("panneau", "si tu n'as pas trouve\nla cle", " cherche en haut\ndu village ")
+	end
+	if x == 55 and y == 25 then
+		create_msg("schtroumpfette", "merci de m'avoir sauvee", "je m'etais bien fais\nschtroumpfer")
+	end
+	if x == 56 and y == 5 then
+		create_msg("pumba", "hakuna matata\nqu'est-ce qu'on est bien ici", "y a pleins d'insectes ! ")
+	end
+	if x == 37 and y == 10 then
+		create_msg("joe dalton", "ne dis pas a lucky luke\nque je suis la !", "je te donne la cle\nen echange.")
+	end
+	if x == 67 and y == 12 then
+		create_msg("bonhomme de neige", "bienvenue au monde\ndes neiges...", "quoi ?\noui, je vais tres bien", "je me suis mis au chaud ")
+	end
+	if x == 83 and y == 02 then
+		create_msg("anna", "est-ce que tu as vu mon\nbonhomme de neige ?", "je l'avais fais pas loin d'ici", "Non? Bon...", "Tu n'as pas vu ma soeur\nau passage ?")
+	end
+	if x == 93 and y == 12 then
+		create_msg("panneau", "si tu as rate une cle\nretourne en arriere", "visite le village\na gauche")
+	end
+	if x == 66 and y == 24 then
+		create_msg("panneau", "bienvenue au village de neige")
+	end
+
+	if x == 114 and y == 18 then
+		create_msg("gollum", "ce n'est pas mon precieux...\nc'est juste une cle...")
+	end
+
+	if x == 70 and y == 18 then
+		create_msg(
+			"lara croft", "j'ai cru que c'etait un\nartefact",
+			"mais c'est juste une cle,\ntu peux la prendre"
+		)
+	end
+	if x == 101 and y == 4 then
+		create_msg("peach", "bienvenue au printemps !", "pour une fois que ce n'est pas\nmoi qui me suis fais capturer")
+	end
+	if x == 110 and y == 4 then
+		create_msg("paneau", "avance prudemment! ennemi\na deux pas.")
+	end
+	if x == 97 and y == 12 then
+		create_msg(
+			"samus", "tu es en mission ?", "bonne chance a toi, je\nvoudrais bien t'aider,", "mais j'ai enleve mon armure",
+			"il faisait bon"
+		)
+	end
+	if x == 100 and y == 24 then
 		create_msg("paneau", "tu es bientot arrive")
 	end
-	if x==124 and y==25 then
-	create_msg("spiderman","je ne sais pas trop quoi te\ndire","j'ai trop de responsabilites\nsur le dos en ce moment...")
+	if x == 124 and y == 25 then
+		create_msg("spiderman", "je ne sais pas trop quoi te\ndire", "j'ai trop de responsabilites\nsur le dos en ce moment...")
 	end
-	
-	if x==125 and y==11 then
-	create_msg("sonic","ca fait un moment que je\nsuis la",
-	"tu es un peu lente, mais\n bien jouer quand meme")
- end
- if x==121 and y==06 then
+
+	if x == 125 and y == 11 then
+		create_msg(
+			"sonic", "ca fait un moment que je\nsuis la",
+			"tu es un peu lente, mais\n bien jouer quand meme"
+		)
+	end
+	if x == 121 and y == 06 then
 		create_msg("yoda", "finis, tu as, mousquetaire\na present, tu es")
 	end
-	end
-
-
+end
 
 --sprite joueur
-
 
 function draw_player()
 	palt(15, true)
 	palt(0, false)
-	spr(p.sprite,p.x*8+p.ox,
-					p.y*8+p.oy,1,1,p.flip)
-	
-	
-	
+	spr(
+		p.sprite, p.x * 8 + p.ox,
+		p.y * 8 + p.oy, 1, 1, p.flip
+	)
 end
-
-
-	
 
 -->8
 
 --camera section
- 
-function new_camera()
- camx=flr(p.x/16)*16
- camy=flr(p.y/16)*16
- camera(camx*8,camy*8)
-end
 
+function new_camera()
+	camx = flr(p.x / 16) * 16
+	camy = flr(p.y / 16) * 16
+	camera(camx * 8, camy * 8)
+end
 
 -->8
 -- user interface
@@ -346,42 +334,42 @@ end
 --nombres de cle ui
 function draw_ui()
 	camera()
-	palt(0,false)
-	palt(12,true)
-	spr(80,2,2)
+	palt(0, false)
+	palt(12, true)
+	spr(80, 2, 2)
 	palt()
-	print_outline("X"..p.keys,10,2)
+	print_outline("X" .. p.keys, 10, 2)
 end
 
 --surbrillance noir cle
 
-function print_outline(text,x,y)
-	print(text,x-1,y,0)
-	print(text,x+1,y,0)
-	print(text,x,y-1,0)
-	print(text,x,y+1,0)
-	print(text,x,y,7)	
+function print_outline(text, x, y)
+	print(text, x - 1, y, 0)
+	print(text, x + 1, y, 0)
+	print(text, x, y - 1, 0)
+	print(text, x, y + 1, 0)
+	print(text, x, y, 7)
 end
 -->8
 -- messages pnj
 
 function init_msg()
-	messages={}
+	messages = {}
 	create_msg()
 end
 
 --boite de dialogue
 
-function create_msg(name,...)
-	msg_title=name
-	messages={...}
+function create_msg(name, ...)
+	msg_title = name
+	messages = { ... }
 end
 
 --bouton message suivant
 
 function update_msg()
 	if btnp(❎) then
-		deli(messages,1)
+		deli(messages, 1)
 	end
 end
 
@@ -389,288 +377,274 @@ end
 
 function draw_msg()
 	if messages[1] then
-		local y=100
-		if p.y%16>=9 then
-		y=10
+		local y = 100
+		if p.y % 16 >= 9 then
+			y = 10
 		end
 		--titre
-		rectfill(7,y-65,10+#msg_title*4,y-71,2)
-		print (msg_title,9,y-70,10)
+		rectfill(7, y - 65, 10 + #msg_title * 4, y - 71, 2)
+		print(msg_title, 9, y - 70, 10)
 		--message
-		rectfill(3,y+8,124,y+24,4)
-		rect(3,y+8,124,y+24,2)
-		print(messages[1],6,y+11,15)
-	
+		rectfill(3, y + 8, 124, y + 24, 4)
+		rect(3, y + 8, 124, y + 24, 2)
+		print(messages[1], 6, y + 11, 15)
 	end
 end
 
--- vie 
-
+-- vie
 
 -->8
 -- zombie
 
-function spawn_zombie(a,b)
-	zombie={
-	x=a,
-	y=b,
-	life=5,
-	direction="droite",
-	type="zombie"
+function spawn_zombie(a, b)
+	zombie = {
+		x = a,
+		y = b,
+		life = 5,
+		direction = "droite",
+		type = "zombie"
 	}
-	add(enemies,zombie)
+	add(enemies, zombie)
 end
-
-
 
 function update_zombie()
 	for e in all(enemies) do
-		if e.type=="zombie" then
-			if e.direction=="droite" then
-				e.x+=0.2
+		if e.type == "zombie" then
+			if e.direction == "droite" then
+				e.x += 0.2
 			else
-				e.x-=0.2
+				e.x -= 0.2
 			end
-			if check_flag(0,(e.x+1),e.y) 
-			 or check_flag(0,e.x,e.y) then
-				if	e.direction=="droite" then
-					e.direction="gauche" 
+			if check_flag(0, e.x + 1, e.y)
+					or check_flag(0, e.x, e.y) then
+				if e.direction == "droite" then
+					e.direction = "gauche"
 				else
-					e.direction="droite"
+					e.direction = "droite"
 				end
 			end
 			for b in all(bullets) do
-				if collision(e,b) then
-					create_explosion(b.x,b.y)
-					del(bullets,b)
-					e.life-=1
-					if e.life==0 then
-						del(enemies,e)
+				if collision(e, b) then
+					create_explosion(b.x, b.y)
+					del(bullets, b)
+					e.life -= 1
+					if e.life == 0 then
+						del(enemies, e)
 					end
 				end
-			end 			 
+			end
 		end
 	end
 end
-
 
 function draw_zombie()
 	for e in all(enemies) do
-		if e.type=="zombie" then
-			spr(112,e.x*8,e.y*8)
+		if e.type == "zombie" then
+			spr(112, e.x * 8, e.y * 8)
 		end
 	end
 end
- 
 
 -->8
 -- robot
 
-function spawn_robot(a,b)
-	robot={
-	x=(a),
-	y=(b),
-	life=5,
-	direction="haut",
-	type="robot"
+function spawn_robot(a, b)
+	robot = {
+		x = a,
+		y = b,
+		life = 5,
+		direction = "haut",
+		type = "robot"
 	}
-	add(enemies,robot)
+	add(enemies, robot)
 end
-
 
 function update_robot()
 	for e in all(enemies) do
-		if e.type=="robot" then
-			if e.direction=="haut" then
-				e.y+=0.2
-				else
-				e.y-=0.2
+		if e.type == "robot" then
+			if e.direction == "haut" then
+				e.y += 0.2
+			else
+				e.y -= 0.2
 			end
-			if check_flag(0,e.x,(e.y+1  ))
-			or check_flag(0,e.x,e.y) then
-		 	if	e.direction=="haut" then
-					e.direction="bas" 
-					else
-					e.direction="haut"
+			if check_flag(0, e.x, e.y + 1)
+					or check_flag(0, e.x, e.y) then
+				if e.direction == "haut" then
+					e.direction = "bas"
+				else
+					e.direction = "haut"
 				end
 			end
 			for b in all(bullets) do
-				if collision(e,b) then
-					create_explosion(b.x,b.y)
-					del(bullets,b)
-					e.life-=1
-					if e.life==0 then
-						del(enemies,e)
+				if collision(e, b) then
+					create_explosion(b.x, b.y)
+					del(bullets, b)
+					e.life -= 1
+					if e.life == 0 then
+						del(enemies, e)
 					end
 				end
-			end 			 
+			end
 		end
-	end 
+	end
 end
 
 function draw_robot()
 	for e in all(enemies) do
-		if e.type=="robot" then
-			spr(113,e.x*8,e.y*8)
+		if e.type == "robot" then
+			spr(113, e.x * 8, e.y * 8)
 		end
 	end
 end
- 
+
 -->8
- 
+
 --message
 
 function init_msg()
-	messages={}
-	create_msg("heroine",
-	[[
+	messages = {}
+	create_msg(
+		"heroine",
+		[[
 	hein ? ou est passe tous
 	le monde ?
 ]],
-	"je dois les retrouver !")
-	
-end 
+		"je dois les retrouver !"
+	)
+end
 
-function create_msg(name,...)
-	msg_title=name
-	messages={...}
+function create_msg(name, ...)
+	msg_title = name
+	messages = { ... }
 end
 
 function update_msg()
-	if btnp(❎) then 
-		deli(messages,1)
+	if btnp(❎) then
+		deli(messages, 1)
 	end
-end 
-
+end
 
 function draw_msg()
 	if messages[1] then
-		local y=100
-		if p.y%16>=9 then 
-	  y=10
-	 end
-	 rectfill(7,y,7+#msg_title*4,y+7,2)
-	 print(msg_title,10,y+2,9)
-	 
-	 rectfill(3,y+8,124,y+24,4)
-	 rect(3,y+8,124,y+24,2)
- 	print(messages[1],6,y+11,15)
- 	end
-end
- 
---function interaction 
-	
+		local y = 100
+		if p.y % 16 >= 9 then
+			y = 10
+		end
+		rectfill(7, y, 7 + #msg_title * 4, y + 7, 2)
+		print(msg_title, 10, y + 2, 9)
 
-	
+		rectfill(3, y + 8, 124, y + 24, 4)
+		rect(3, y + 8, 124, y + 24, 2)
+		print(messages[1], 6, y + 11, 15)
+	end
+end
+
+--function interaction
+
 --=======
 --bullets
 
 function shoot()
-new_bullet={
-x=p.x,
-y=p.y,
-speed=0.2,
-direction=p.direction
-}
-add(bullets,new_bullet) 
-sfx(2) 
+	new_bullet = {
+		x = p.x,
+		y = p.y,
+		speed = 0.2,
+		direction = p.direction
+	}
+	add(bullets, new_bullet)
+	sfx(2)
 end
 
 function update_bullets()
 	for b in all(bullets) do
-		if b.direction=="droite" then
-			b.x+=b.speed
-			if check_flag(0,b.x,b.y) then
-				del(bullets,b)
+		if b.direction == "droite" then
+			b.x += b.speed
+			if check_flag(0, b.x, b.y) then
+				del(bullets, b)
 			end
-		elseif b.direction=="gauche" then
-			b.x-=b.speed
-			if check_flag(0,b.x,b.y) then
-				del(bullets,b)
+		elseif b.direction == "gauche" then
+			b.x -= b.speed
+			if check_flag(0, b.x, b.y) then
+				del(bullets, b)
 			end
-		elseif b.direction=="haut" then
-			b.y-=b.speed
-			if check_flag(0,b.x,b.y) then
-				del(bullets,b)
+		elseif b.direction == "haut" then
+			b.y -= b.speed
+			if check_flag(0, b.x, b.y) then
+				del(bullets, b)
 			end
-		elseif b.direction=="bas" then
-			b.y+=b.speed
-			if check_flag(0,b.x,b.y) then
-				del(bullets,b)
+		elseif b.direction == "bas" then
+			b.y += b.speed
+			if check_flag(0, b.x, b.y) then
+				del(bullets, b)
 			end
-		end 
+		end
 	end
 end
 
 function draw_bullets()
 	for b in all(bullets) do
-		palt(0,true)
-		spr(59,b.x*8,b.y*8)
+		palt(0, true)
+		spr(59, b.x * 8, b.y * 8)
 	end
 end
 -->8
- -- collision enemies
+-- collision enemies
 
-function collision(a,b)
-return not	((a.x*8)>(b.x*8)+8					
-											or (a.y*8)>(b.y*8)+8
-											or (a.x*8)+8<(b.x*8)
-											or (a.y*8)+8<(b.y*8))
-											
+function collision(a, b)
+	return not a.x * 8 > b.x * 8 + 8
+			or a.y * 8 > b.y * 8 + 8
+			or a.x * 8 + 8 < b.x * 8
+			or a.y * 8 + 8 < b.y * 8
 end
 -->8
 --main menu
 
 function update_m()
-if scene=="menu" then
-			update_menu()
-	elseif scene=="game" then
-			update_game()
-	elseif scene=="over" then
-			update_over()
+	if scene == "menu" then
+		update_menu()
+	elseif scene == "game" then
+		update_game()
+	elseif scene == "over" then
+		update_over()
 	end
-
 end
 
 function draw_g()
-		if scene=="menu" then
-				draw_menu()
-		elseif scene=="game" then
-				draw_game()
-		elseif scene=="over" then
-				draw_over()
-		end
-	
-		
+	if scene == "menu" then
+		draw_menu()
+	elseif scene == "game" then
+		draw_game()
+	elseif scene == "over" then
+		draw_over()
+	end
 end
 
 function update_menu()
-		if btnp(🅾️) then
-				scene="game"
-				play_main_music()
-			
-		end
+	if btnp(🅾️) then
+		scene = "game"
+		play_main_music()
+	end
 end
 
 function draw_menu()
 	cls()
-	print
-	("appuyez sur c pour\n    commencer",28,63)
-	spr(99,10,40,2,2)
-	spr(99,102,40,2,2,true)
-	spr(99,102,75,2,2,true,true)
-	spr(99,10,75,2,2,false,true)
-	spr(101,10,56,1,1)
-	spr(101,10,67,1,1)
-	spr(101,110,56,1,1,true)
-	spr(101,110,67,1,1,true)
-
+	print(
+		"appuyez sur c pour\n    commencer", 28, 63
+	)
+	spr(99, 10, 40, 2, 2)
+	spr(99, 102, 40, 2, 2, true)
+	spr(99, 102, 75, 2, 2, true, true)
+	spr(99, 10, 75, 2, 2, false, true)
+	spr(101, 10, 56, 1, 1)
+	spr(101, 10, 67, 1, 1)
+	spr(101, 110, 56, 1, 1, true)
+	spr(101, 110, 67, 1, 1, true)
 end
 
 function update_game()
-	if #messages==0 then
-	player_mouvement()
-	update_bullets()
+	if #messages == 0 then
+		player_mouvement()
+		update_bullets()
 	end
 	change_music()
 	update_zombie()
@@ -679,119 +653,117 @@ function update_game()
 	new_camera()
 	update_msg()
 	--explosions
-	
 end
 
 function draw_game()
-		draw_map()
-		if(c>=0) then
-			if(sin(c/4)<0) then
-			
-		--	print(text,x-1,y,0)
-	--		print(p.y)
-  draw_player()
- -- ennemis
- 	draw_zombie()
- 	draw_robot()
- 	end
- 	else
- 	draw_player()
- 	draw_zombie()
- 	draw_robot()
- 	draw_explosions()
- 	end
- 
- 	draw_bullets()
- 	show_life()
- 	--interface
-		draw_ui()
+	draw_map()
+	if c >= 0 then
+		if sin(c / 4) < 0 then
+			--	print(text,x-1,y,0)
+			--		print(p.y)
+			draw_player()
+			-- ennemis
+			draw_zombie()
+			draw_robot()
+		end
+	else
+		draw_player()
+		draw_zombie()
+		draw_robot()
+		draw_explosions()
+	end
+
+	draw_bullets()
+	show_life()
+	--interface
+	draw_ui()
 	--dialogue
-		draw_msg()
-	 
+	draw_msg()
+
 	--explosions
-	 
-	 lose()
-end 
+
+	lose()
+end
 -->8
 --game over
 
 function update_over()
 	if btn(🅾️) then
-	run()
+		run()
 	end
 end
 
 function draw_over()
 	cls()
-	print("game over! appuyez\n      sur c",30,55)
-	print("pour recommencer",30,67)
-	spr(99,10,40,2,2)
-	spr(99,102,40,2,2,true)
-	spr(99,102,75,2,2,true,true)
-	spr(99,10,75,2,2,false,true)
-	spr(101,10,56,1,1)
-	spr(101,10,67,1,1)
-	spr(101,110,56,1,1,true)
-	spr(101,110,67,1,1,true)
+	print("game over! appuyez\n      sur c", 30, 55)
+	print("pour recommencer", 30, 67)
+	spr(99, 10, 40, 2, 2)
+	spr(99, 102, 40, 2, 2, true)
+	spr(99, 102, 75, 2, 2, true, true)
+	spr(99, 10, 75, 2, 2, false, true)
+	spr(101, 10, 56, 1, 1)
+	spr(101, 10, 67, 1, 1)
+	spr(101, 110, 56, 1, 1, true)
+	spr(101, 110, 67, 1, 1, true)
 end
 
 function lose()
-	if p.life<=0 or p.x==123 and p.y==03  then
-	scene="over"
-	music(18)
+	if p.life <= 0 or p.x == 123 and p.y == 03 then
+		scene = "over"
+		music(18)
+	end
 end
-end 
-
-
-
-
-
 
 -->8
 --explosions
 
-function create_explosion(x,y)
-sfx(1)
-add(explosions,{x=(x*8),
-               y=(y*8),
-               timer=0})
+function create_explosion(x, y)
+	sfx(1)
+	add(
+		explosions, {
+			x = x * 8,
+			y = y * 8,
+			timer = 0
+		}
+	)
 end
- 
- function update_explosions()
- 	for e in all(explosions)do
- 	e.timer+=1
- 		if e.timer==13 then
- 			del(explosions,e)
- 		end
- 	end
- end
- 
- function draw_explosions()
- 	circ(x,y,rayon,couleur)
- 		for e in all(explosions) do
- 		circ(e.x,e.y,e.timer/3,
-     8+e.timer%3)
- 		end
- end     
+
+function update_explosions()
+	for e in all(explosions) do
+		e.timer += 1
+		if e.timer == 13 then
+			del(explosions, e)
+		end
+	end
+end
+
+function draw_explosions()
+	circ(x, y, rayon, couleur)
+	for e in all(explosions) do
+		circ(
+			e.x, e.y, e.timer / 3,
+			8 + e.timer % 3
+		)
+	end
+end
 -->8
 --la barre de vie
 
 function show_life()
-	 camera()
-		palt(0,false)
-		palt(12,true)
+	camera()
+	palt(0, false)
+	palt(12, true)
 	--	spr(63,2,2)
-		palt()
-		
-	for i=1,totallife do
-		spr(63,128-i*8,0)
+	palt()
+
+	for i = 1, totallife do
+		spr(63, 128 - i * 8, 0)
 	end
-	
-	for i=1,p.life do
-		spr(62,128-i*8,0)
+
+	for i = 1, p.life do
+		spr(62, 128 - i * 8, 0)
 	end
 end
-
 
 -->8
 
@@ -801,16 +773,17 @@ function play_main_music()
 end
 
 function change_music()
-		if p.x==35 and p.y==25 then
-			music(0)
-	elseif p.x==70 and p.y==13 then
-			music(24)
-	elseif p.x==84 and p.y==26 then
-			music(29)
-	elseif p.x==111 and p.y==23 then
+	if p.x == 35 and p.y == 25 then
+		music(0)
+	elseif p.x == 70 and p.y == 13 then
+		music(24)
+	elseif p.x == 84 and p.y == 26 then
+		music(29)
+	elseif p.x == 111 and p.y == 23 then
 		music(9)
-		end
+	end
 end
+
 __gfx__
 0000000033333333ff9888ff33333333333333334444444444444444111111141111111144444444411111113333333333333333111111144111111115444451
 0000000033333333998888883bbbbbb333333933ddddddddddddddd41111111d111111114ddddddd4111111133e333333333e33311111114d111111116ffff61
