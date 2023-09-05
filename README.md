@@ -9,6 +9,6 @@ Les Mousquetaires est un jeu d'aventure réalisé en équipe.
 Plongez dans un jeu rétro avec plusieurs références aux personnages de la Pop Culture. 
 Promenez vous dans les décors afin de trouver un VRAI mousquetaire.
 
-[Les Mousquetaires](https://github.com/accardigianni/projet-collectif---pico8-les-mousquetaires/files/12524940/Trombi_Nantes_rvb_26.pdf)
+[Les Mousquetaires](<img scr ="https://github.com/accardigianni/projet-collectif---pico8-les-mousquetaires/files/12524940/Trombi_Nantes_rvb_26.pdf">)
 
 
